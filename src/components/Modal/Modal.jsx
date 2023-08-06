@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const Modal = ({ image, onClose }) => {
-  const handleEscape = (e) => {
-    if (e.keyCode === 27) {
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [onClose]);
-
+const Modal = ({ largeImageURL, onClose }) => {
   return (
-    <div className="overlay" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <img src={image.src} alt={image.alt} />
+    <div className="Overlay" onClick={onClose}>
+      <div className="Modal">
+        <img src={largeImageURL} alt="" />
       </div>
     </div>
   );

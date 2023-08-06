@@ -1,13 +1,14 @@
 import React from 'react';
+import styles from './ImageGalleryItem.module.css';
 
 const ImageGalleryItem = ({ webformatURL, onItemClick }) => {
   return (
-    <li className="ImageGalleryItem">
+    <li className={styles.ImageGalleryItem}>
       <img
         src={webformatURL}
         alt=""
-        className="ImageGalleryItem-image"
-        onClick={onItemClick}
+        className={styles.ImageGalleryItemImage}
+        onClick={() => onItemClick(webformatURL)}
       />
     </li>
   );

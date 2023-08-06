@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import styles from './App.module.css';
+
 import Searchbar from './SearchBar/SearchBar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
@@ -46,7 +48,7 @@ const App = () => {
   };
 
   return (
-    <div className="App">
+    <div className={styles.App}>
       <Searchbar onSubmit={handleSearch} />
       <ImageGallery images={images} onItemClick={handleItemClick} />
       {isLoading && <Loader />}

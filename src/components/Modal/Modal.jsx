@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import * as basicLightbox from 'basiclightbox';
+import styles from './Modal.module.css';
 
 const Modal = ({ largeImageURL, onClose }) => {
   useEffect(() => {
     const modalInstance = basicLightbox.create(`
-      <div class="modal">
+      <div class=${styles.Modal}>
         <img src="${largeImageURL}" alt="Large Image" />
       </div>
     `);

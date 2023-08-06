@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from './ImageGallery.module.css';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ images, onItemClick }) => {
   return (
-    <ul className="ImageGallery">
+    <ul className={styles.ImageGallery}>
       {images.map((image) => (
         <ImageGalleryItem
           key={image.id}

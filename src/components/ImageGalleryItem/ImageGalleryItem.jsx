@@ -4,12 +4,12 @@ import styles from './ImageGalleryItem.module.css';
 
 class ImageGalleryItem extends React.Component {
   render() {
-    const { webformatURL, onItemClick } = this.props;
+    const { webformatURL, onItemClick, tags } = this.props;
     return (
       <li className={styles.ImageGalleryItem}>
         <img
           src={webformatURL}
-          alt=""
+          alt={tags}
           className={styles.ImageGalleryItemImage}
           onClick={() => onItemClick(webformatURL)}
         />

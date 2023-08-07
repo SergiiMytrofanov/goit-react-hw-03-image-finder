@@ -1,4 +1,4 @@
-
+// App.js
 import React from 'react';
 import styles from './App.module.css';
 
@@ -17,7 +17,6 @@ class App extends React.Component {
     page: 1,
     isLoading: false,
     modalImage: null,
-    // isModalOpen: false,
   };
 
   handleSearch = (newQuery) => {
@@ -46,24 +45,24 @@ class App extends React.Component {
   };
 
   handleItemClick = (largeImageURL) => {
-    this.setState({ modalImage: largeImageURL, isModalOpen: true });
+    this.setState({ modalImage: largeImageURL });
     document.body.style.overflow = 'hidden';
   };
 
   handleCloseModal = () => {
-    this.setState({ modalImage: null, isModalOpen: false });
+    this.setState({ modalImage: null });
     document.body.style.overflow = 'auto';
   };
 
   render() {
-    const { images, isLoading, modalImage, isModalOpen } = this.state;
+    const { images, isLoading, modalImage } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery images={images} onItemClick={this.handleItemClick} />
         {isLoading && <Loader />}
         <Button onClick={this.handleLoadMore} images={images} isLoading={isLoading} />
-        {isModalOpen && modalImage && <Modal largeImageURL={modalImage} onClose={this.handleCloseModal} />}
+        {modalImage && <Modal largeImageURL={modalImage} onClose={this.handleCloseModal} />}
       </div>
     );
   }

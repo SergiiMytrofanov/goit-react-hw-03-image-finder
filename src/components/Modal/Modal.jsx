@@ -22,17 +22,30 @@ class Modal extends React.Component {
     this.modalInstance.close();
     window.removeEventListener('keydown', this.handleEscapeKey);
     document.body.style.overflow = 'auto';
-    this.props.onClose(); 
   }
 
   handleEscapeKey = (event) => {
     if (event.key === 'Escape') {
       this.modalInstance.close();
+      this.props.onClose();
+    }
+  };
+
+  handleModalClick = (event) => {
+    if (event.target === event.currentTarget) {
+      this.modalInstance.close();
+      this.props.onClose();
     }
   };
 
   render() {
-    return null;
+    return (
+      <div className={styles.Overlay} onClick={this.handleModalClick}>
+        <div className={styles.Modal}>
+          <img src={this.props.largeImageURL} alt="Large Image"/>
+        </div>
+      </div>
+    );
   }
 }
 

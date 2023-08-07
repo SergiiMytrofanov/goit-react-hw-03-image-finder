@@ -1,29 +1,39 @@
+
+import React from 'react';
 import * as basicLightbox from 'basiclightbox';
 import styles from './Modal.module.css';
 
-const Modal = ({ largeImageURL, onClose }) => {
-  const modalInstance = basicLightbox.create(`
-    <div class=${styles.Overlay}>
-      <div class=${styles.Modal}>
-        <img src="${largeImageURL}" alt="Large Image" />
+class Modal extends React.Component {
+  componentDidMount() {
+    this.modalInstance = basicLightbox.create(`
+      <div class=${styles.Overlay}>
+        <div class=${styles.Modal}>
+          <img src="${this.props.largeImageURL}" alt="Large Image" />
+        </div>
       </div>
-    </div>
-  `);
+    `);
 
-  const handleEscapeKey = (event) => {
+    this.modalInstance.show();
+    window.addEventListener('keydown', this.handleEscapeKey);
+    document.body.style.overflow = 'hidden';
+  }
+
+  componentWillUnmount() {
+    this.modalInstance.close();
+    window.removeEventListener('keydown', this.handleEscapeKey);
+    document.body.style.overflow = 'auto';
+    this.props.onClose(); 
+  }
+
+  handleEscapeKey = (event) => {
     if (event.key === 'Escape') {
-      modalInstance.close();
+      this.modalInstance.close();
     }
   };
 
-  modalInstance.show();
-
-  window.addEventListener('keydown', handleEscapeKey);
-  return () => {
-    window.removeEventListener('keydown', handleEscapeKey);
-  };
-};
-
-
+  render() {
+    return null;
+  }
+}
 
 export default Modal;

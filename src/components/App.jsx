@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React from 'react';
 import styles from './App.module.css';
 
 import Searchbar from './SearchBar/SearchBar';
@@ -8,54 +9,64 @@ import Button from './Button/Button';
 import Modal from './Modal/Modal';
 
 const API_KEY = '33677208-f1f2404fc2dd629d3112c23cb';
-const App = () => {
-  const [query, setQuery] = useState('');
-  const [images, setImages] = useState([]);
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [modalImage, setModalImage] = useState(null);
 
-  const handleSearch = (newQuery) => {
-    setQuery(newQuery);
-    setImages([]);
-    setPage(1);
-    fetchImages(newQuery, 1);
+class App extends React.Component {
+  state = {
+    query: '',
+    images: [],
+    page: 1,
+    isLoading: false,
+    modalImage: null,
+    // isModalOpen: false,
   };
 
-  const fetchImages = (query, page) => {
-    setIsLoading(true);
+  handleSearch = (newQuery) => {
+    this.setState({ query: newQuery, images: [], page: 1 });
+    this.fetchImages(newQuery, 1);
+  };
+
+  fetchImages = (query, page) => {
+    this.setState({ isLoading: true });
     fetch(
       `https://pixabay.com/api/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
     )
       .then((response) => response.json())
       .then((data) => {
-        setImages((prevImages) => [...prevImages, ...data.hits]);
-        setPage((prevPage) => prevPage + 1);
+        this.setState((prevState) => ({
+          images: [...prevState.images, ...data.hits],
+          page: prevState.page + 1,
+        }));
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => this.setState({ isLoading: false }));
   };
 
-  const handleLoadMore = () => {
-    fetchImages(query, page);
+  handleLoadMore = () => {
+    const { query, page } = this.state;
+    this.fetchImages(query, page);
   };
 
-  const handleItemClick = (largeImageURL) => {
-    setModalImage(largeImageURL);
+  handleItemClick = (largeImageURL) => {
+    this.setState({ modalImage: largeImageURL, isModalOpen: true });
+    document.body.style.overflow = 'hidden';
   };
 
-  const handleCloseModal = () => {
-    setModalImage(null);
+  handleCloseModal = () => {
+    this.setState({ modalImage: null, isModalOpen: false });
+    document.body.style.overflow = 'auto';
   };
 
-  return (
-    <div className={styles.App}>
-      <Searchbar onSubmit={handleSearch} />
-      <ImageGallery images={images} onItemClick={handleItemClick} />
-      {isLoading && <Loader />}
-      <Button onClick={handleLoadMore} images={images} isLoading={isLoading} />
-      {modalImage && <Modal largeImageURL={modalImage} onClose={handleCloseModal} />}
-    </div>
-  );
-};
+  render() {
+    const { images, isLoading, modalImage, isModalOpen } = this.state;
+    return (
+      <div className={styles.App}>
+        <Searchbar onSubmit={this.handleSearch} />
+        <ImageGallery images={images} onItemClick={this.handleItemClick} />
+        {isLoading && <Loader />}
+        <Button onClick={this.handleLoadMore} images={images} isLoading={isLoading} />
+        {isModalOpen && modalImage && <Modal largeImageURL={modalImage} onClose={this.handleCloseModal} />}
+      </div>
+    );
+  }
+}
 
 export default App;

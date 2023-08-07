@@ -1,4 +1,3 @@
-import React from 'react';
 import * as basicLightbox from 'basiclightbox';
 import styles from './Modal.module.css';
 
@@ -24,5 +23,7 @@ const Modal = ({ largeImageURL, onClose }) => {
     window.removeEventListener('keydown', handleEscapeKey);
   };
 };
+
+
 
 export default Modal;

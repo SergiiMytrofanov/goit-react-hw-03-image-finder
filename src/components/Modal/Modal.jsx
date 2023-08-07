@@ -42,7 +42,7 @@ class Modal extends React.Component {
     return (
       <div className={styles.Overlay} onClick={this.handleModalClick}>
         <div className={styles.Modal}>
-          <img src={this.props.largeImageURL} alt="Large Image"/>
+          <img src={this.props.largeImageURL} alt="Large"/>
         </div>
       </div>
     );

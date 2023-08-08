@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import styles from './App.module.css';
 
@@ -17,6 +16,7 @@ class App extends React.Component {
     page: 1,
     isLoading: false,
     modalImage: null,
+    totalHits: 0, // Initialize totalHits
   };
 
   handleSearch = (newQuery) => {
@@ -34,6 +34,7 @@ class App extends React.Component {
         this.setState((prevState) => ({
           images: [...prevState.images, ...data.hits],
           page: prevState.page + 1,
+          totalHits: data.totalHits, // Update totalHits
         }));
       })
       .finally(() => this.setState({ isLoading: false }));
@@ -55,13 +56,18 @@ class App extends React.Component {
   };
 
   render() {
-    const { images, isLoading, modalImage } = this.state;
+    const { images, isLoading, modalImage, totalHits } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={this.handleSearch} />
         <ImageGallery images={images} onItemClick={this.handleItemClick} />
         {isLoading && <Loader />}
-        <Button onClick={this.handleLoadMore} images={images} isLoading={isLoading} />
+        <Button
+          onClick={this.handleLoadMore}
+          images={images}
+          isLoading={isLoading}
+          totalHits={totalHits}
+        />
         {modalImage && <Modal largeImageURL={modalImage} onClose={this.handleCloseModal} />}
       </div>
     );
